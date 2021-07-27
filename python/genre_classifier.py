@@ -60,13 +60,13 @@ def nearest_genre(neighbors):
 
 
 # Model Evaluation to get the accuracy
-def get_accuracy(test_set, predictions):
+def get_accuracy(temp_test_set, temp_predictions):
     correct = 0
-    for i in range(len(test_set)):
-        if test_set[i][-1] == predictions[i]:
+    for i in range(len(temp_test_set)):
+        if temp_test_set[i][-1] == temp_predictions[i]:
             correct += 1
 
-    return 1.0 * correct / len(test_set)
+    return 1.0 * correct / len(temp_test_set)
 
 
 # Extract features from the audio files and store them in a model file
@@ -88,7 +88,7 @@ def extract_features(filename):
                 mean_matrix = mfcc_feat.mean(0)
                 feature = (mean_matrix, covariance, it)
                 pickle.dump(feature, f)
-            except Exception:
+            except EOFError:
                 f.close()
 
     f.close()
